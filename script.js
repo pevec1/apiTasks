@@ -21,6 +21,9 @@ class Catalog {
         if (json[0] == "id") {
           this.modal(json);
         }
+        if (json[0] == "search") {
+          this.search(json);
+        }
       }
     };
   }
@@ -194,7 +197,36 @@ class Catalog {
       }
     });
   }
+
+  search(index) {
+   // console.log(index);
+    let key, value, result;
+    let button = document.getElementById("search");
+    button.addEventListener("keyup", (event) => {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+        let matchString = document.getElementById("search").value;
+        result = "";
+        for (key in index) {
+          if (index.hasOwnProperty(key) && !isNaN(parseInt(key, 10))) {
+            value = index[key];
+            if (value.toLowerCase().indexOf(matchString) !== -1) {
+              // You've found it, the full text is in `value`.
+              // So you might grab it and break the loop, although
+              // really what you do having found it depends on
+              // what you need.
+              result += value + ", ";
+             // console.log(result);
+            }
+          }
+        }
+        document.querySelector(".results").innerHTML =
+          "Результат поиска:  " + result;
+      }
+    });
+  }
 }
 
 let cat = new Catalog("api/v1/task");
 let cat2 = new Catalog("api/v1/task/0");
+let cat3 = new Catalog("api/v1/search");

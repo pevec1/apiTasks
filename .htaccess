@@ -1,0 +1,49 @@
+DefaultLanguage ru
+RewriteEngine On
+  <IfModule mod_headers.c>
+   Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+
+# s-0001
+<IfModule autoindex_module.c>
+IndexIgnore *
+</IfModule>
+
+# s-0002
+ServerSignature Off
+Options -Indexes
+DirectoryIndex index.php index.html index.htm
+
+# s-0003
+ErrorDocument 400 default
+ErrorDocument 401 default
+ErrorDocument 403 "Forbidden"
+ErrorDocument 404 "Page Not Found"
+
+# s-0004
+<IfModule mod_php4.c>
+php_flag magic_quotes_gpc off
+php_flag magic_quotes_runtime off
+php_flag register_globals off
+</IfModule>
+
+<IfModule mod_php5.c>
+php_flag display_errors on
+php_flag magic_quotes_gpc off
+php_flag magic_quotes_runtime off
+php_flag register_globals off
+</IfModule>
+
+
+RewriteEngine on
+RewriteBase /
+
+RewriteRule ^start?$ start.php?action=start [L]
+RewriteRule ^api/v1/task?$ task.php?action=task [L]
+RewriteRule ^api/v1/task/(.*)?$ task2.php?action=id&id=$1 [L]
+RewriteRule ^api/v1/search?$ task3.php?action=search [L]
+
+php_value session.gc_maxlifetime 43200
+php_value session.cookie_lifetime 43200
+#php_value memory_limit 80M
+######################################################
