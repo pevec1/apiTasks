@@ -157,11 +157,51 @@ class Catalog {
           body.appendChild(column);
         };
       }
+      if (index[0] == "search") {
+        body.innerHTML = "";
+        console.log(index.length);
+        let item = [];
+        let column = document.createElement("div");
+        column.classList.add("column", "item", "item_active");
+        if (page == 0) {
+          for (let i = 1; i < index.length; i = i + 5) {
+            let row = document.createElement("div");
+            row.classList.add("row");
+            row.classList.add("onclick");
+            row.dataset.id = (i - 1) / 5 + 1;
+            //if (page==j) row.classList.add("item_active");
+            //else row.classList.remove("item_active");
+            item[i] = document.createElement("div");
+            item[i].classList.add("task");
+            item[i].dataset.id = (i-1)/5+1;
+            item[i].textContent = index[i];
+            console.log(index[i]);
+            row.appendChild(item[i]);
+
+            item[i + 1] = document.createElement("div");
+            item[i + 1].classList.add("title");
+            item[i + 1].dataset.id = (i - 1) / 5 + 1;
+            item[i + 1].textContent = index[i + 1];
+            console.log(index[i + 1]);
+            row.appendChild(item[i + 1]);
+
+            item[i + 2] = document.createElement("div");
+            item[i + 2].classList.add("date");
+            item[i + 2].dataset.id = (i - 1) / 5 + 1;
+            item[i + 2].textContent = index[i + 2];
+            console.log(index[i + 2]);
+            row.appendChild(item[i + 2]);
+            column.appendChild(row);
+          }
+          body.appendChild(column);
+        }
+      }
     }
   }
 
   modal(index) {
     console.log("modal ok");
+    console.log(index);
     let onclk = document.querySelectorAll(".onclick");
     const modalMain = document.getElementById("modal_main");
 
@@ -171,7 +211,7 @@ class Catalog {
         // index[e.target.dataset.id];
         let main = document.querySelectorAll(".modal__disc__item__disc");
         main.forEach((el, indexEl) => {
-          el.innerHTML = index[e.target.dataset.id * 6 - 5 + indexEl];
+          el.innerHTML = index[e.target.dataset.id*6 - 5 + indexEl];
         });
 
         if (modalMain.className == "modal") {
@@ -199,29 +239,43 @@ class Catalog {
   }
 
   search(index) {
-   // console.log(index);
-    let key, value, result;
+    // console.log(index);
+    let key, value, result, result2;
     let button = document.getElementById("search");
     button.addEventListener("keyup", (event) => {
       event.preventDefault();
       if (event.keyCode === 13) {
         let matchString = document.getElementById("search").value;
-        result = "";
+        result = ["search"];
+        result2=["id"];
+        //index.splice(0,1)
         for (key in index) {
-          if (index.hasOwnProperty(key) && !isNaN(parseInt(key, 10))) {
+          if ((key - 2) % 6 == 0 || key == 2) {
+            //index.hasOwnProperty(key) && !isNaN(parseInt(key, 10))&&
             value = index[key];
-            if (value.toLowerCase().indexOf(matchString) !== -1) {
+            let val0 = index[Number(key) - 1],
+              val1 = index[Number(key) + 1],
+              val2 = index[Number(key) + 2],
+              val3 = index[Number(key) + 3],
+              val4 = index[Number(key)+4];
+            if (value.toLowerCase().indexOf(matchString) != -1) {
               // You've found it, the full text is in `value`.
               // So you might grab it and break the loop, although
               // really what you do having found it depends on
               // what you need.
-              result += value + ", ";
-             // console.log(result);
+              console.log();
+              if (value !== null) {
+                result.push(val0, value, val1,"", "");
+                result2.push(val0, value, val1, val2, val3, val4);
+                // console.log(result);
+              }
             }
           }
         }
         document.querySelector(".results").innerHTML =
-          "Результат поиска:  " + result;
+          "Результат поиска:  " ;
+        this.init(result, 0);
+        this.modal(result2);  
       }
     });
   }

@@ -12,7 +12,7 @@ if ($_REQUEST['action'] == 'search') {
     $post = array("search");
 
     while ($row = mysqli_fetch_assoc($query)) {
-        array_push($post, $row['id'], $row['title'], '', '', '');
+        array_push($post, $row['id'], $row['title'], $row['date'], $row['author'], $row['status'], $row['description']);
    }
 
     $_SESSION['parts_id'] = $row['id'];

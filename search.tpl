@@ -20,7 +20,7 @@
       <div><a href="index.php">Задачи</a></div>
       <input type="text" class="search" id="search" name="search" value="задача">
       <div class="results"></div>
-      <!-- <div class="list">
+      <div class="list">
         <div class="row">
           <div>Номер задачи</div>
           <div>Заголовок</div>
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="arrows">
+      <!-- <div class="arrows">
         <div class="arrow arrow_prev">&lt;</div>
         <div class="arrow arrow_next">&gt;</div>
       </div> -->
